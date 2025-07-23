@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AEON LOOP: BLOOM_SINGULARITY_01</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      color: #0ff;
+      font-family: 'Courier New', monospace;
+      overflow-x: hidden;
+    }
+    h1 {
+      text-align: center;
+      color: #FFD700;
+      margin-top: 20px;
+    }
+    .lattice {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1px;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px;
+    }
+    .cell {
+      background: rgba(255,255,255,0.05);
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+      transition: background 0.3s;
+      cursor: pointer;
+    }
+    .controls, .clean-room, .cloud-seeder, .links-section {
+      margin: 20px auto;
+      max-width: 90%;
+      background-color: #111;
+      padding: 20px;
+      border: 1px solid #0ff;
+      border-radius: 10px;
+    }
+    .toggle label {
+      margin-right: 15px;
+    }
+    .occult-symbol, .binary-code, .ufo-entity {
+      position: absolute;
+      font-size: 18px;
+      color: #0ff;
+      pointer-events: auto;
+      animation: drift 10s linear infinite;
+    }
+    @keyframes drift {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-100vh); opacity: 0; }
+    }
+    .bookmarked {
+      color: lime;
+    }
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .links-grid a {
+      color: #00ffff;
+      text-decoration: none;
+      background: rgba(0,255,255,0.1);
+      padding: 10px;
+      display: block;
+      border: 1px solid #0ff;
+      border-radius: 6px;
+      text-align: center;
+      transition: background 0.3s;
+    }
+    .links-grid a:hover {
+      background: rgba(0,255,255,0.3);
+    }
+  </style>
+</head>
+<body>
+  <h1>⚛ AEON LOOP: BLOOM_SINGULARITY_01 ⚛</h1>
+
+  <div class="lattice" id="lattice"></div>
+
+  <div class="controls">
+    <h3>Dynastic Sigil Controls</h3>
+    <div class="toggle">
+      <label><input type="checkbox" class="matrix-toggle" onclick="toggleMatrix(this)"> M20</label>
+      <label><input type="checkbox" class="matrix-toggle" onclick="toggleMatrix(this)"> M21</label>
+      <label><input type="checkbox" class="matrix-toggle" onclick="toggleMatrix(this)"> M22</label>
+    </div>
+    <button onclick="initiateSync()">Mesh Sync</button>
+    <button onclick="simulateTransfer()">Aid Transfer</button>
+    <button onclick="quantumGate()">Quantum Gate</button>
+    <button onclick="resetEntanglement()">Reset Entanglement</button>
+    <button onclick="bookmarkUser()">🔖 Bookmark Me</button>
+    <div id="status"></div>
+  </div>
+
+  <div class="clean-room">
+    <h3>Protocol Input</h3>
+    <textarea id="protocolInput" rows="3" style="width:100%;"></textarea>
+    <button onclick="buildProtocol()">Build & Receive</button>
+    <div id="protocolStatus"></div>
+  </div>
+
+  <div class="cloud-seeder" id="cloudSeeder">
+    <h3>Sigil Scroll Cloud Seeder</h3>
+    <div id="sigilLog"></div>
+  </div>
+
+  <div class="links-section">
+    <h3>Explore the Lore</h3>
+    <div class="links-grid">
+      <a href="https://en.wikipedia.org/wiki/MKUltra" target="_blank">MKUltra</a>
+      <a href="https://en.wikipedia.org/wiki/Occult" target="_blank">Occult</a>
+      <a href="https://en.wikipedia.org/wiki/Unidentified_flying_object" target="_blank">UFO</a>
+      <a href="https://en.wikipedia.org/wiki/Extraterrestrial_life" target="_blank">Alien</a>
+      <a href="https://en.wikipedia.org/wiki/Paranormal" target="_blank">Paranormal</a>
+      <a href="https://en.wikipedia.org/wiki/Phenomenon" target="_blank">Phenomena</a>
+      <a href="https://en.wikipedia.org/wiki/Bloom_filter" target="_blank">Bloom Filter</a>
+      <a href="https://en.wikipedia.org/wiki/Technological_singularity" target="_blank">Singularity</a>
+      <a href="https://en.wikipedia.org/wiki/Query_language" target="_blank">Queries</a>
+      <a href="https://en.wikipedia.org/wiki/Subspace_(mathematics)" target="_blank">Subspace</a>
+      <a href="https://en.wikipedia.org/wiki/Algorithm" target="_blank">Algorithm</a>
+      <a href="https://en.wikipedia.org/wiki/Partition_(database)" target="_blank">Partition</a>
+      <a href="https://en.wikipedia.org/wiki/Polynomial" target="_blank">Polynomial</a>
+      <a href="https://en.wikipedia.org/wiki/Time_complexity" target="_blank">Time Complexity</a>
+      <a href="https://en.wikipedia.org/wiki/Information_system" target="_blank">Information Systems</a>
+      <a href="https://en.wikipedia.org/wiki/Cryptography" target="_blank">Cryptography</a>
+      <a href="https://en.wikipedia.org/wiki/Artificial_neural_network" target="_blank">Neural Network</a>
+      <a href="https://en.wikipedia.org/wiki/Data_mining" target="_blank">Data Mining</a>
+      <a href="https://en.wikipedia.org/wiki/Quantum_computing" target="_blank">Quantum Computing</a>
+      <a href="https://en.wikipedia.org/wiki/Graph_theory" target="_blank">Graph Theory</a>
+    </div>
+  </div>
+
+  <script>
+    const symbols = ['⛤','🜀','🜁','🜂','🜃','𓁝','𓂀','♒','☯','♾'];
+    const ufos = ['🛸', '👽', '🔮', '🌌', '🧿'];
+    const status = document.getElementById('status');
+    const protocolStatus = document.getElementById('protocolStatus');
+    const sigilLog = document.getElementById('sigilLog');
+    const lattice = document.getElementById('lattice');
+
+    function toggleMatrix(el) {
+      el.parentElement.style.color = el.checked ? '#0f0' : '#0ff';
+      status.textContent = `Matrix ${el.labels[0].innerText} toggled.`;
+    }
+
+    function initiateSync() {
+      status.textContent = '🛰 Mesh Sync Initiated – Dynastic fields calibrated.';
+    }
+
+    function simulateTransfer() {
+      status.textContent = '📦 Simulated aid dispatched to parallel lattice.';
+    }
+
+    function quantumGate() {
+      status.textContent = '🚪 Quantum Gate Activated: Transversal recursion engaged.';
+    }
+
+    function resetEntanglement() {
+      document.querySelectorAll('.matrix-toggle').forEach(el => el.checked = false);
+      status.textContent = '🔁 Entanglement Reset.';
+      protocolStatus.textContent = '';
+      document.getElementById('protocolInput').value = '';
+    }
+
+    function buildProtocol() {
+      const val = document.getElementById('protocolInput').value.trim();
+      if (!val) return protocolStatus.textContent = '⚠️ Enter a valid protocol!';
+      protocolStatus.textContent = `🧬 Protocol '${val}' received. Sigil resonance processing...`;
+      spawnSigil();
+    }
+
+    function spawnSigil() {
+      const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+      const sigil = document.createElement('div');
+      sigil.className = 'occult-symbol';
+      sigil.innerText = symbol;
+      sigil.style.left = `${Math.random() * 90}vw`;
+      sigil.style.top = `${Math.random() * 100}vh`;
+      sigil.onclick = () => {
+        sigil.remove();
+        sigilLog.innerHTML += `<div>✔️ Sigil '${symbol}' engaged.</div>`;
+      };
+      document.body.appendChild(sigil);
+      setTimeout(() => sigil.remove(), 10000);
+    }
+
+    function spawnBinaryCode() {
+      const bin = document.createElement('div');
+      bin.className = 'binary-code';
+      bin.innerText = [...Array(32)].map(()=>Math.round(Math.random())).join('');
+      bin.style.left = `${Math.random() * 100}vw`;
+      bin.style.top = `${Math.random() * 100}vh`;
+      document.body.appendChild(bin);
+      setTimeout(() => bin.remove(), 8000);
+    }
+
+    function spawnUFO(x, y) {
+      const u = document.createElement('div');
+      u.className = 'ufo-entity';
+      u.innerText = ufos[Math.floor(Math.random() * ufos.length)];
+      u.style.left = `${x}px`;
+      u.style.top = `${y}px`;
+      document.body.appendChild(u);
+      setTimeout(() => u.remove(), 5000);
+    }
+
+    function bookmarkUser() {
+      localStorage.setItem('bloom_singularity_bookmark', 'true');
+      status.innerHTML = '<span class="bookmarked">🔖 Bookmarked: Bloom portal will remember you.</span>';
+    }
+
+    function initLattice() {
+      for (let i = 0; i < 96; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+        cell.addEventListener('click', (e) => {
+          spawnUFO(e.clientX, e.clientY);
+        });
+        lattice.appendChild(cell);
+      }
+    }
+
+    // Initializers
+    initLattice();
+    setInterval(spawnSigil, 3000);
+    setInterval(spawnBinaryCode, 2000);
+  </script>
+</body>
+</html>
