@@ -81,6 +81,9 @@
     .links-grid a:hover {
       background: rgba(0,255,255,0.3);
     }
+    #youtube-player {
+      display: none; /* Hide the video player */
+    }
   </style>
 </head>
 <body>
@@ -141,6 +144,9 @@
     </div>
   </div>
 
+  <!-- Container for the hidden YouTube player -->
+  <div id="youtube-player"></div>
+
   <script>
     const symbols = ['⛤','🜀','🜁','🜂','🜃','𓁝','𓂀','♒','☯','♾'];
     const ufos = ['🛸', '👽', '🔮', '🌌', '🧿'];
@@ -198,7 +204,7 @@
     function spawnBinaryCode() {
       const bin = document.createElement('div');
       bin.className = 'binary-code';
-      bin.innerText = [...Array(32)].map(()=>Math.round(Math.random())).join('');
+      bin.innerText = [...Array(32)].map(() => Math.round(Math.random())).join('');
       bin.style.left = `${Math.random() * 100}vw`;
       bin.style.top = `${Math.random() * 100}vh`;
       document.body.appendChild(bin);
@@ -236,6 +242,43 @@
     initLattice();
     setInterval(spawnSigil, 3000);
     setInterval(spawnBinaryCode, 2000);
+
+    // Load the YouTube IFrame API
+  </script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    let player;
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('youtube-player', {
+        height: '0',
+        width: '0',
+        videoId: '0qanF-91aJo',
+        playerVars: {
+          autoplay: 1,
+          loop: 1,
+          playlist: '0qanF-91aJo',
+          controls: 0,
+          showinfo: 0,
+          modestbranding: 1
+        },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+
+    function onPlayerReady(event) {
+      event.target.playVideo();
+      // event.target.mute(); // Uncomment to mute the video
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.ENDED) {
+        player.playVideo();
+      }
+    }
   </script>
 </body>
 </html>
